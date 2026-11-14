@@ -1,0 +1,79 @@
+services:
+  - type: web
+    name: mineria-sistema-web
+    env: docker
+    dockerfilePath: Dockerfile
+    plan: starter
+    region: ohio
+    branch: master
+    autoDeploy: true
+    healthCheckPath: /up
+    envVars:
+      - key: APP_NAME
+        value: "Sistema Integrado de Minería"
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_URL
+        value: https://mineria-sistema-web.onrender.com
+      - key: APP_KEY
+        generateValue: true
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: "3306"
+      - key: DB_DATABASE
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: SESSION_DRIVER
+        value: database
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: database
+
+  - type: worker
+    name: mineria-worker
+    env: docker
+    dockerfilePath: Dockerfile
+    dockerCommand: php artisan queue:work --tries=3 --timeout=90
+    plan: starter
+    region: ohio
+    branch: master
+    autoDeploy: true
+    envVars:
+      - fromService:
+          type: web
+          name: mineria-sistema-web
+          envVarKey: APP_KEY
+      - fromService:
+          type: web
+          name: mineria-sistema-web
+          envVarKey: DB_CONNECTION
+      - fromService:
+          type: web
+          name: mineria-sistema-web
+          envVarKey: DB_HOST
+      - fromService:
+          type: web
+          name: mineria-sistema-web
+          envVarKey: DB_PORT
+      - fromService:
+          type: web
+          name: mineria-sistema-web
+          envVarKey: DB_DATABASE
+      - fromService:
+          type: web
+          name: mineria-sistema-web
+          envVarKey: DB_USERNAME
+      - fromService:
+          type: web
+          name: mineria-sistema-web
+          envVarKey: DB_PASSWORD
+

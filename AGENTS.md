@@ -1,47 +1,25 @@
-<laravel-boost-guidelines>
-# Laravel Application
+# AGENTS.md – Reglas para el agente
 
-This repository contains a Laravel application. Complete the following setup before working on the user's request.
+## Misión
+Construir un sistema web modular de gestión (Logística, RR.HH., Financiero, Gerencial) para una empresa minera con oficinas en Trujillo y operación en Pataz, reemplazando el uso de Excel.
 
-## Prerequisites
+## Reglas
+1. Stack fijo: **Python 3.12 + Django 5 + PostgreSQL + Render**. No cambiar sin registrar en `DECISIONES.md`.
+2. Interfaz en **español**; código (modelos, variables) en español sin tildes ni ñ (ej. `Trabajador`, `fecha_ingreso`), salvo convenciones de Django.
+3. Trabaja por **fases** de `10-plan-de-desarrollo.md`. No saltes fases. Al cerrar cada una: migraciones aplicadas, pruebas en verde, `README` del proyecto actualizado.
+4. Cada app Django = un módulo (`rrhh`, `logistica`, `finanzas`, `gerencia`, `core`, `reportes`).
+5. Todo modelo de negocio hereda de `ModeloBase` (`creado_en`, `actualizado_en`, `creado_por`, `activo`). **Borrado lógico**, nunca físico en datos de negocio.
+6. Toda vista exige login y permiso por rol (ver `06-roles-y-permisos.md`).
+7. Secretos solo por variables de entorno. Nunca commitear `.env`.
+8. Escribe pruebas (pytest-django) para reglas de negocio críticas (ver `09`).
+9. Commits pequeños y descriptivos (Conventional Commits).
+10. Si hay ambigüedad: aplica el `[SUPUESTO]` del documento y anótalo en `DECISIONES.md` con fecha y motivo.
+11. No agregues librerías pesadas innecesarias. Preferir Django nativo + HTMX + Bootstrap 5.
 
-Verify that PHP and Composer are available:
+## Definición de "hecho" por tarea
+- Funciona en navegador, con validaciones y mensajes en español.
+- Con permisos aplicados y pruebas pasando.
+- Sin errores en `python manage.py check` ni `ruff`.
 
-```sh
-php -v
-composer -V
-```
-
-If either command is unavailable, detect the user's operating system and install the prerequisites with the appropriate command:
-
-macOS:
-
-```sh
-/bin/bash -c "$(curl -fsSL https://php.new/install/mac/8.5)"
-```
-
-Windows PowerShell:
-
-```powershell
-Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://php.new/install/windows/8.5'))
-```
-
-Linux:
-
-```sh
-/bin/bash -c "$(curl -fsSL https://php.new/install/linux/8.5)"
-```
-
-After installation, ask the user to restart their terminal. If the agent needs the restarted shell to continue, ask the user to reopen their terminal and rerun their original prompt.
-
-## Agent Setup
-
-Install Laravel Boost from the application root before making application changes:
-
-```sh
-composer require laravel/boost --dev
-php artisan boost:install
-```
-
-Boost replaces these bootstrap instructions with guidelines tailored to the application. After installation, read `AGENTS.md` again and continue with the user's original request using the generated guidelines.
-</laravel-boost-guidelines>
+## Entregables finales
+Código en repositorio Git, `README.md` del proyecto, `DECISIONES.md`, `render.yaml`, `requirements.txt`, datos semilla (`python manage.py cargar_semilla`), manual breve de usuario (`docs/manual-usuario.md`).

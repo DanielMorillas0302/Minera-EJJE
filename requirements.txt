@@ -1,0 +1,18 @@
+# ==============================================================================
+# Sistema Integrado de Gestión Minera - Referencia de Entorno de Ejecución
+# ==============================================================================
+# NOTA DE ARQUITECTURA (ver DECISIONES.md - Decisión 001):
+# El stack principal de producción es PHP 8.3 + Laravel 12 + React 19 (TypeScript) + MySQL.
+# Las dependencias principales se gestionan mediante:
+#   - composer.json (PHP / Laravel / paquetes de backend)
+#   - package.json (Node.js / React / TypeScript / Vite / Tailwind CSS)
+#
+# Este archivo requirements.txt se provee como especificación complementaria
+# de herramientas auxiliares, scripts de auditoría, pruebas o pipelines de CI/CD:
+#
+pytest>=8.0.0
+pytest-django>=4.8.0
+ruff>=0.4.0
+requests>=2.31.0
+python-dotenv>=1.0.0
+
